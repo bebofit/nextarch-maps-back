@@ -8,7 +8,7 @@
     "format": "prettier --config .prettierrc --write",
     "seed": "ts-node scripts/seed.ts",
     "build": "tsc",
-    "start": "ts-node index.ts",
+    "start": "ts-node -T index.ts",
     "start:prod": "node dist/index.js",
     "watch": "nodemon",
     "watch:windows": "npm run watch -- -L",

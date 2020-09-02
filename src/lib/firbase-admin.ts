@@ -1,14 +1,14 @@
 import * as admin from 'firebase-admin';
 import config from '../config';
 
-const { FIREBASE_ADMIN } = config;
+// const { FIREBASE_ADMIN } = config;
 
 class Admin {
   constructor() {
-    const config = JSON.parse(FIREBASE_ADMIN);
-    admin.initializeApp({
-      credential: admin.credential.cert(config)
-    });
+    // const config = JSON.parse(FIREBASE_ADMIN);
+    // admin.initializeApp({
+    //   credential: admin.credential.cert(config)
+    // });
   }
 
   async verifyToken(idToken: string, uid: string): Promise<boolean> {
