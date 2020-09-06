@@ -9,16 +9,7 @@ const CREATE = joi.object({
     .valid(...Object.values(ReportType))
     .required(),
   userInfo: joi.object({
-    mobile: joi
-      .string()
-      .trim()
-      .required(),
-    email: joi
-      .string()
-      .email()
-      .trim()
-      .required(),
-    name: joi
+    homeNumber: joi
       .string()
       .trim()
       .required(),
@@ -40,7 +31,9 @@ const CREATE = joi.object({
       .string()
       .trim()
       .required()
-  })
+  }),
+  long: joi.number().required(),
+  lat: joi.number().required()
 });
 
 const UPDATE = joi.object({
