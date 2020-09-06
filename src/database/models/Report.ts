@@ -16,6 +16,8 @@ interface IReport extends Document {
     building: string;
     city: string;
   };
+  long: number;
+  lat: number;
 }
 
 const reportSchema = new Schema({
@@ -49,6 +51,14 @@ const reportSchema = new Schema({
     type: String,
     enum: Object.values(ReportStatus),
     default: ReportStatus.Received
+  },
+  long: {
+    type: Number,
+    required: true
+  },
+  lat: {
+    type: Number,
+    required: true
   }
 });
 

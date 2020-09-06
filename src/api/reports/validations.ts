@@ -33,7 +33,8 @@ const CREATE = joi.object({
       .required()
   }),
   long: joi.number().required(),
-  lat: joi.number().required()
+  lat: joi.number().required(),
+  desc: joi.string().required()
 });
 
 const UPDATE = joi.object({
@@ -60,7 +61,10 @@ const UPDATE = joi.object({
     .string()
     .trim()
     .uppercase()
-    .valid(...Object.values(ReportStatus))
+    .valid(...Object.values(ReportStatus)),
+  long: joi.number(),
+  lat: joi.number(),
+  desc: joi.string()
 });
 
 export { CREATE, UPDATE };
