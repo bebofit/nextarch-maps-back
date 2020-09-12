@@ -1,5 +1,5 @@
 import { IDBQueryOptions, IPaginatedData, IDBQuery } from '../../common/types';
-import { IReport } from '../../database/models';
+import { IReport, IUser } from '../../database/models';
 import repository from './repository';
 
 const getReports = (
@@ -10,12 +10,22 @@ const getReports = (
     repository.findAll(options)
   ]).then(([total, results]) => ({ total, results }));
 
+const getReportsByUser = (
+  userId: string,
+  options?: IDBQueryOptions
+): Promise<IPaginatedData<IReport>> =>
+  Promise.all([
+    repository.countReportsByUser(userId, options),
+    repository.findReportsByUser(userId, options)
+  ]).then(([total, results]) => ({ total, results }));
+
 const getReportById = (
   id: string,
   options?: IDBQueryOptions
 ): IDBQuery<IReport> => repository.findById(id, options);
 
-const createReport = (body: any): Promise<IReport> => repository.create(body);
+const createReport = (body: any, user: IUser): Promise<IReport> =>
+  repository.createReport(body, user);
 
 const updateReport = (
   id: string,
@@ -29,6 +39,7 @@ const softDeleteReport = (
 
 export {
   getReportById,
+  getReportsByUser,
   getReports,
   createReport,
   updateReport,

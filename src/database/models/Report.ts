@@ -5,6 +5,7 @@ interface IReport extends Document {
   type: ReportType;
   status: ReportStatus;
   desc: string;
+  user: { id: string; name: string; email: string };
   userInfo: {
     mobile: string;
     name: string;
@@ -30,6 +31,7 @@ const reportSchema = new Schema({
     type: String,
     required: true
   },
+  user: { type: { id: String, name: String, email: String }, required: true },
   userInfo: {
     type: {
       mobile: String,

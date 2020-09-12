@@ -11,11 +11,21 @@ import {
   validateDBId
 } from '../../common/utils';
 import * as reportsService from './service';
+import * as usersService from '../users/service';
 import * as reportsValidations from './validations';
 
 async function getReports(req: IRequest, res: Response): Promise<any> {
   const paginationOptions = extractPaginationOptions(req.query);
   const data = await reportsService.getReports(paginationOptions);
+  res.status(OK).json({
+    data
+  });
+}
+
+async function getReportsByUser(req: IRequest, res: Response): Promise<any> {
+  const paginationOptions = extractPaginationOptions(req.query);
+  const { userId } = req.authInfo;
+  const data = await reportsService.getReportsByUser(userId, paginationOptions);
   res.status(OK).json({
     data
   });
@@ -35,7 +45,9 @@ async function getReportById(req: IRequest, res: Response): Promise<any> {
 
 async function createReport(req: IRequest, res: Response): Promise<any> {
   const body = validateBody(req.body, reportsValidations.CREATE);
-  const report = await reportsService.createReport(body);
+  const { userId } = req.authInfo;
+  const user = await usersService.getUserById(userId);
+  const report = await reportsService.createReport(body, user);
   res.status(CREATED).json({
     data: report
   });
@@ -67,6 +79,7 @@ async function softDeleteReport(req: IRequest, res: Response): Promise<any> {
 export {
   getReports,
   getReportById,
+  getReportsByUser,
   createReport,
   updateReport,
   softDeleteReport

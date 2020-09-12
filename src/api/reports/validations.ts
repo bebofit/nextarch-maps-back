@@ -1,11 +1,10 @@
-import { Gender, ReportType, ReportStatus } from '../../common/enums';
+import { ReportType, ReportStatus } from '../../common/enums';
 import joi from '../../lib/joi';
 
 const CREATE = joi.object({
   type: joi
     .string()
     .trim()
-    .uppercase()
     .valid(...Object.values(ReportType))
     .required(),
   userInfo: joi.object({
@@ -41,7 +40,6 @@ const UPDATE = joi.object({
   type: joi
     .string()
     .trim()
-    .uppercase()
     .valid(...Object.values(ReportType)),
   userInfo: joi.object({
     mobile: joi.string().trim(),
