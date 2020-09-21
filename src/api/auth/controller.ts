@@ -13,7 +13,6 @@ import { IRequest } from '../../common/types';
 import { genToken, hashPassword, validateBody } from '../../common/utils';
 import { startTransaction } from '../../database';
 import * as usersService from '../users/service';
-import * as adminsService from '../admins/service';
 import * as authService from './service';
 import * as authValidations from './validations';
 // import { emailsService } from '../../common/services';
@@ -86,38 +85,38 @@ async function login(req: IRequest, res: Response): Promise<any> {
   });
 }
 
-async function loginDashboard(req: IRequest, res: Response): Promise<any> {
-  const body = validateBody(req.body, authValidations.LOGIN);
-  const admin = await adminsService.getAdminByUsername(body.username);
-  if (!admin) {
-    throw {
-      statusCode: UNAUTHORIZED,
-      message: "Admin or password doesn't exist"
-    };
-  }
-  const passwordMatches = authService.checkForCorrectPassword(
-    body.password,
-    admin.password
-  );
-  if (!passwordMatches) {
-    throw {
-      statusCode: UNAUTHORIZED,
-      message: "Admin or password doesn't exist"
-    };
-  }
-  await adminsService.updateLastLoginAt(admin.id);
-  const {
-    accessToken,
-    refreshToken
-  } = await adminsService.createAdminTokenPair(admin);
-  res.status(OK).json({
-    data: {
-      accessToken,
-      refreshToken,
-      user: admin
-    }
-  });
-}
+// async function loginDashboard(req: IRequest, res: Response): Promise<any> {
+//   const body = validateBody(req.body, authValidations.LOGIN);
+//   const admin = await adminsService.getAdminByUsername(body.username);
+//   if (!admin) {
+//     throw {
+//       statusCode: UNAUTHORIZED,
+//       message: "Admin or password doesn't exist"
+//     };
+//   }
+//   const passwordMatches = authService.checkForCorrectPassword(
+//     body.password,
+//     admin.password
+//   );
+//   if (!passwordMatches) {
+//     throw {
+//       statusCode: UNAUTHORIZED,
+//       message: "Admin or password doesn't exist"
+//     };
+//   }
+//   await adminsService.updateLastLoginAt(admin.id);
+//   const {
+//     accessToken,
+//     refreshToken
+//   } = await adminsService.createAdminTokenPair(admin);
+//   res.status(OK).json({
+//     data: {
+//       accessToken,
+//       refreshToken,
+//       user: admin
+//     }
+//   });
+// }
 
 async function registerSocialUser(req: IRequest, res: Response): Promise<any> {
   const body = validateBody(req.body, authValidations.REGISTER_SOCIAL_USER);
@@ -369,6 +368,6 @@ export {
   verifyEmail,
   resendVerificationEmail,
   login,
-  loginDashboard,
+  // loginDashboard,
   loginSocial
 };
