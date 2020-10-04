@@ -13,18 +13,14 @@ const REGISTER_USER = joi.object({
     .email()
     .lowercase()
     .required(),
-  mobile: joi
-    .string()
-    .trim()
-    .required(),
+  mobile: joi.string().trim(),
   dob: joi.date().max(subYears(new Date(), 10)),
   city: joi.string().trim(),
   gender: joi
     .string()
     .trim()
     .uppercase()
-    .valid(...Object.values(Gender))
-    .required(),
+    .valid(...Object.values(Gender)),
   password: joi
     .string()
     .trim()
