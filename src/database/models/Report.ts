@@ -35,8 +35,6 @@ const reportSchema = new Schema({
   userInfo: {
     type: {
       mobile: String,
-      name: String,
-      email: String,
       nId: String
     },
     required: true

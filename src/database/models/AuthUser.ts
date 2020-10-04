@@ -76,19 +76,14 @@ const authUserSchema = new Schema(
         return !this.firebaseId && !this.firebaseToken;
       }
     },
-    mobile: {
-      type: String,
-      unique: true,
-      sparse: true
-    },
+    mobile: String,
     landline: String,
     dob: Date,
     city: String,
     referrer: String,
     gender: {
       type: String,
-      enum: Object.values(Gender),
-      required: true
+      enum: Object.values(Gender)
     },
     clientLanguage: {
       type: String,
