@@ -1,5 +1,6 @@
 import { Document, model, Schema } from 'mongoose';
 import { ReportStatus, ReportType } from '../../common/enums';
+import { generateNumber } from '../../common/utils';
 
 interface IReport extends Document {
   type: ReportType;
@@ -31,6 +32,11 @@ const reportSchema = new Schema({
     type: String,
     required: true
   },
+  problem: {
+    one: String,
+    two: String,
+    three: String
+  },
   user: { type: { id: String, name: String, email: String }, required: true },
   userInfo: {
     type: {
@@ -59,6 +65,10 @@ const reportSchema = new Schema({
   lat: {
     type: Number,
     required: true
+  },
+  uuid: {
+    type: Number,
+    default: generateNumber()
   }
 });
 
