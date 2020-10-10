@@ -21,14 +21,14 @@ class ReportRepository extends BaseDBRepository<IReport> {
     userId: string,
     options?: IDBQueryOptions
   ): Promise<number> {
-    return this.count({ user: { id: userId } }, options);
+    return super.count({ 'user.id': userId }, options);
   }
 
   findReportsByUser(
     userId: string,
     options?: IDBQueryOptions
   ): IDBQuery<IReport> {
-    return this.find({ user: { id: userId } }, options);
+    return super.find({ 'user.id': userId }, options);
   }
 }
 
