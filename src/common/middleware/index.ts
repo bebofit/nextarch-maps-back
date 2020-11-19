@@ -6,6 +6,7 @@ import isAdmin from './admin';
 import isAuthenticated from './auth';
 import isNotAuthenticated from './no-auth';
 import isOptionalAuthenticated from './optional-auth';
+import uploadUserReportPhotos from './upload-user-report-images';
 
 export {
   notFoundErrorHandler,
@@ -15,5 +16,6 @@ export {
   isAdmin,
   isAuthenticated,
   isNotAuthenticated,
-  isOptionalAuthenticated
+  isOptionalAuthenticated,
+  uploadUserReportPhotos
 };

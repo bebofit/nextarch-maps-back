@@ -22,11 +22,11 @@ router.post('/login', errorHandler(controller.login));
 router.post('/refresh', errorHandler(controller.refreshAuthUserToken));
 // Swagger
 // router.post('/login-admin', errorHandler(controller.loginDashboard));
-router.post('/login/social', errorHandler(controller.loginSocial));
+// router.post('/login/social', errorHandler(controller.loginSocial));
 
-router.post(
-  '/register/user/social',
-  errorHandler(controller.registerSocialUser)
-);
+// router.post(
+//   '/register/user/social',
+//   errorHandler(controller.registerSocialUser)
+// );
 
 export default router;

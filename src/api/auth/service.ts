@@ -1,4 +1,4 @@
-import { addDays, addHours } from 'date-fns';
+import { addDays, addHours, differenceInMilliseconds } from 'date-fns';
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 // import { AccountType, Role } from '../../common/enums';
 import { IAuthInfo, IDBQuery, IDBQueryOptions } from '../../common/types';
@@ -11,7 +11,7 @@ import {
 import config from '../../config';
 import { IAuthUser } from '../../database/models';
 import repository from './repository';
-import firebaseAdmin from '../../lib/firbase-admin';
+// import firebaseAdmin from '../../lib/firbase-admin';
 
 const { JWT_SECRET } = config;
 
@@ -128,18 +128,22 @@ async function createAuthUserTokenPair(
     options
   );
   const [accessToken, refreshToken] = await Promise.all([
-    signJWT({
-      ...authInfo,
-      jti: refreshTokenId,
-      iat: createdAt.valueOf(),
-      exp: accessExpiresAt.valueOf()
-    }),
-    signJWT({
-      ...authInfo,
-      jti: refreshTokenId,
-      iat: createdAt.valueOf(),
-      exp: refreshExpiresAt.valueOf()
-    })
+    signJWT(
+      {
+        ...authInfo,
+        jti: refreshTokenId,
+        iat: createdAt.valueOf()
+      },
+      differenceInMilliseconds(accessExpiresAt, createdAt)
+    ),
+    signJWT(
+      {
+        ...authInfo,
+        jti: refreshTokenId,
+        iat: createdAt.valueOf()
+      },
+      differenceInMilliseconds(refreshExpiresAt, createdAt)
+    )
   ]);
   return { accessToken, refreshToken };
 }
@@ -205,14 +209,14 @@ const revokeRefreshToken = (
 const deleteRefreshToken = (userId: string, options?: IDBQueryOptions) =>
   repository.deleteRefreshToken(userId, options);
 
-const verifyFirebaseToken = (token: string, uid: string): Promise<boolean> =>
-  firebaseAdmin.verifyToken(token, uid);
+// const verifyFirebaseToken = (token: string, uid: string): Promise<boolean> =>
+//   firebaseAdmin.verifyToken(token, uid);
 
 export {
   extractToken,
   decodeToken,
   verifyToken,
-  verifyFirebaseToken,
+  // verifyFirebaseToken,
   updateEmailVerificationToken,
   isAuthenticated,
   isNotAuthenticated,

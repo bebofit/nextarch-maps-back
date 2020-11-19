@@ -20,6 +20,7 @@ export interface IConfig {
   AWS_REGION: string;
   S3_BUCKET: string;
   FIREBASE_CREDENTIALS: string;
+  FIREBASE_ADMIN: string;
   MAILER_SENDER: string;
   CRYPTO_SECRET: string;
   NODE_ENV: 'development' | 'testing' | 'staging' | 'production';

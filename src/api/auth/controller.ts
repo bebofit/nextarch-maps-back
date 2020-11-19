@@ -118,83 +118,83 @@ async function login(req: IRequest, res: Response): Promise<any> {
 //   });
 // }
 
-async function registerSocialUser(req: IRequest, res: Response): Promise<any> {
-  const body = validateBody(req.body, authValidations.REGISTER_SOCIAL_USER);
-  const existingAuthUser = await authService.getAuthUserByEmail(body.email);
-  if (existingAuthUser) {
-    throw {
-      statusCode: CONFLICT,
-      errorCode: 'Email already Exists'
-    };
-  }
-  const isVerified = authService.verifyFirebaseToken(
-    body.firebaseToken,
-    body.firebaseId
-  );
-  if (!isVerified) {
-    throw {
-      statusCode: UNAUTHORIZED,
-      message: 'The token provided is incorrect'
-    };
-  }
-  body.isEmailVerified = true;
-  body.isSocial = true;
-  if (body.photoUrl) {
-    body.photo = {
-      type: 'Image',
-      size: '18',
-      path: 'external',
-      url: body.photoUrl
-    };
-  }
-  const user = await usersService.createUser(body);
-  // await emailsService.welcomeMail(body.email, 'ar');
-  await authService.updateLastLoginAt(user.id);
-  const {
-    accessToken,
-    refreshToken
-  } = await authService.createAuthUserTokenPair(user, body.device);
-  res.status(CREATED).json({
-    data: {
-      user,
-      accessToken,
-      refreshToken
-    }
-  });
-}
+// async function registerSocialUser(req: IRequest, res: Response): Promise<any> {
+//   const body = validateBody(req.body, authValidations.REGISTER_SOCIAL_USER);
+//   const existingAuthUser = await authService.getAuthUserByEmail(body.email);
+//   if (existingAuthUser) {
+//     throw {
+//       statusCode: CONFLICT,
+//       errorCode: 'Email already Exists'
+//     };
+//   }
+//   const isVerified = authService.verifyFirebaseToken(
+//     body.firebaseToken,
+//     body.firebaseId
+//   );
+//   if (!isVerified) {
+//     throw {
+//       statusCode: UNAUTHORIZED,
+//       message: 'The token provided is incorrect'
+//     };
+//   }
+//   body.isEmailVerified = true;
+//   body.isSocial = true;
+//   if (body.photoUrl) {
+//     body.photo = {
+//       type: 'Image',
+//       size: '18',
+//       path: 'external',
+//       url: body.photoUrl
+//     };
+//   }
+//   const user = await usersService.createUser(body);
+//   // await emailsService.welcomeMail(body.email, 'ar');
+//   await authService.updateLastLoginAt(user.id);
+//   const {
+//     accessToken,
+//     refreshToken
+//   } = await authService.createAuthUserTokenPair(user, body.device);
+//   res.status(CREATED).json({
+//     data: {
+//       user,
+//       accessToken,
+//       refreshToken
+//     }
+//   });
+// }
 
-async function loginSocial(req: IRequest, res: Response): Promise<any> {
-  const body = validateBody(req.body, authValidations.LOGIN_SOCIAL);
-  const isVerified = authService.verifyFirebaseToken(
-    body.firebaseToken,
-    body.firebaseId
-  );
-  if (!isVerified) {
-    throw {
-      statusCode: UNAUTHORIZED,
-      message: 'The token provided is incorrect'
-    };
-  }
-  const authUser = await authService.getAuthUserByEmail(body.email);
-  if (!authUser) {
-    throw {
-      statusCode: UNAUTHORIZED,
-      errorCode: "Email Doesn't exist!"
-    };
-  }
-  await authService.updateLastLoginAt(authUser.id);
-  const {
-    accessToken,
-    refreshToken
-  } = await authService.createAuthUserTokenPair(authUser, body.device);
-  res.status(OK).json({
-    data: {
-      accessToken,
-      refreshToken,
-      user: authUser
-    }
-  });
-}
+// async function loginSocial(req: IRequest, res: Response): Promise<any> {
+//   const body = validateBody(req.body, authValidations.LOGIN_SOCIAL);
+//   const isVerified = authService.verifyFirebaseToken(
+//     body.firebaseToken,
+//     body.firebaseId
+//   );
+//   if (!isVerified) {
+//     throw {
+//       statusCode: UNAUTHORIZED,
+//       message: 'The token provided is incorrect'
+//     };
+//   }
+//   const authUser = await authService.getAuthUserByEmail(body.email);
+//   if (!authUser) {
+//     throw {
+//       statusCode: UNAUTHORIZED,
+//       errorCode: "Email Doesn't exist!"
+//     };
+//   }
+//   await authService.updateLastLoginAt(authUser.id);
+//   const {
+//     accessToken,
+//     refreshToken
+//   } = await authService.createAuthUserTokenPair(authUser, body.device);
+//   res.status(OK).json({
+//     data: {
+//       accessToken,
+//       refreshToken,
+//       user: authUser
+//     }
+//   });
+// }
 
 async function resendVerificationEmail(
   req: IRequest,
@@ -360,14 +360,14 @@ async function refreshAuthUserToken(
 
 export {
   registerUser,
-  registerSocialUser,
+  // registerSocialUser,
   refreshAuthUserToken,
   changePassword,
   resetPassword,
   forgotPassword,
   verifyEmail,
   resendVerificationEmail,
-  login,
+  login
   // loginDashboard,
-  loginSocial
+  // loginSocial
 };

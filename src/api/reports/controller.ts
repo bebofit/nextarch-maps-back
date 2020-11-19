@@ -76,11 +76,31 @@ async function softDeleteReport(req: IRequest, res: Response): Promise<any> {
   res.status(NO_CONTENT).send();
 }
 
+async function addImgs(req: IRequest, res: Response): Promise<any> {
+  const files = req.files as Express.MulterS3.File[];
+  const photos: any[] = [];
+  // tslint:disable-next-line: no-increment-decrement
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i] as Express.MulterS3.File;
+    const photo = {
+      type: file.mimetype,
+      size: file.size,
+      path: file.key,
+      url: file.location
+    };
+    photos.push(photo);
+  }
+  res.status(OK).json({
+    data: photos
+  });
+}
+
 export {
   getReports,
   getReportById,
   getReportsByUser,
   createReport,
   updateReport,
-  softDeleteReport
+  softDeleteReport,
+  addImgs
 };
